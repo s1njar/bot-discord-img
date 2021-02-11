@@ -7,7 +7,8 @@ dotenv.config();
 declare const process : {
     env: {
         BOT_TOKEN: string,
-        APP_DEBUG_MODE: boolean
+        APP_DEBUG_MODE: boolean,
+        IMAGE_BASE_DIR: string
     }
 }
 
@@ -16,5 +17,6 @@ declare const process : {
  */
 export default {
     botToken: process.env.BOT_TOKEN ?? '',
-    debugMode: !!+process.env.APP_DEBUG_MODE ?? false
+    debugMode: !!+process.env.APP_DEBUG_MODE ?? false,
+    imageBaseDir: process.env.IMAGE_BASE_DIR ?? 'var/images',
 }

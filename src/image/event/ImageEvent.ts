@@ -1,16 +1,21 @@
+import fs from "fs";
 import discord from "discord.js";
-import {Event} from "../../core/event/Event";
-import {logger} from "../../../app/helper/logger";
+import { Event } from "../../core/event/Event";
+import { logger } from "../../../app/helper/logger";
+import { SaveImageService } from "../service/SaveImageService";
+import { Inject } from "typescript-ioc";
 
 /**
  * @class ImageEvent
  */
 export class ImageEvent extends Event {
-
     /**
      * @type discord.Client
      */
     public client: discord.Client;
+
+    @Inject
+    private saveImageService: SaveImageService
 
     /**
      * Init event.
@@ -27,12 +32,12 @@ export class ImageEvent extends Event {
      * @param message
      * @private
      */
-    private fetchImages(message: discord.Message) {
+    private async fetchImages(message: discord.Message) {
         if (!message.attachments.size) {
-            logger.info("Has no image")
+            logger.info("Message does not contain any images.")
             return;
         }
 
-        logger.info("Has an image")
+        this.saveImageService.execute(message);
     }
 }

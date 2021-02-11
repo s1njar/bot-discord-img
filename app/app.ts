@@ -1,7 +1,7 @@
 import discord from "discord.js";
+import appConfig from './config/application';
 import {IEvent} from "../src/core/event/IEvent";
 import {IServiceProvider} from "../src/core/provider/IServiceProvider";
-import appConfig from './config/application';
 import {logger} from "./helper/logger";
 
 /**
@@ -58,7 +58,7 @@ export default class App {
                 });
             })
             .catch(reason => {
-                console.log(reason)
+                logger.error(reason.message)
             });
     }
 }

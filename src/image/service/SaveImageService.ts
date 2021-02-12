@@ -11,7 +11,7 @@ import * as fs from "fs";
 export class SaveImageService {
 
     /**
-     * @type discord.Message
+     * @type Message
      * @private
      */
     private message: Message;
@@ -19,7 +19,7 @@ export class SaveImageService {
     /**
      * Execute save image service.
      *
-     * @param attachment
+     * @param message
      */
     public async execute(message: Message): Promise<void> {
         this.message = message;
@@ -38,7 +38,7 @@ export class SaveImageService {
     private async downloadImage (attachment: MessageAttachment): Promise<void> {
         const response = await fetch(attachment.url);
         const buffer = await response.buffer();
-        const dirPath = await this.getDirPath(attachment);
+        const dirPath = await this.getDirPath();
         const fileName = await this.getFileName(attachment);
 
         await fs.promises.mkdir(dirPath, { recursive: true })
@@ -60,7 +60,7 @@ export class SaveImageService {
      *
      * @private
      */
-    private async getDirPath(attachment: MessageAttachment): Promise<string> {
+    private async getDirPath(): Promise<string> {
         const basePath = appConfig.imageBaseDir;
         const guildPath = this.message.guild.name;
         // @ts-ignore
@@ -75,8 +75,6 @@ export class SaveImageService {
      * @private
      */
     private async getFileName(attachment: MessageAttachment): Promise<string> {
-        const file = attachment.name;
-
-        return file;
+        return `${Date.now().toString()}_${attachment.name}`;
     }
 }

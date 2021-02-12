@@ -61,10 +61,10 @@ export class SaveImageService {
      * @private
      */
     private async getDirPath(attachment: MessageAttachment): Promise<string> {
-        let basePath = appConfig.imageBaseDir;
-        let guildPath = this.message.guild.name;
+        const basePath = appConfig.imageBaseDir;
+        const guildPath = this.message.guild.name;
         // @ts-ignore
-        let channelPath = this.message.channel.name;
+        const channelPath = this.message.channel.name;
 
         return `${basePath}/${guildPath}/${channelPath}`;
     }
@@ -75,7 +75,7 @@ export class SaveImageService {
      * @private
      */
     private async getFileName(attachment: MessageAttachment): Promise<string> {
-        let file = attachment.name;
+        const file = attachment.name;
 
         return file;
     }

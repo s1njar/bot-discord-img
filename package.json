@@ -7,7 +7,7 @@
     "prebuild": "rm -rf dist/* && tslint -c tslint.json -p tsconfig.json --fix",
     "build": "tsc && cp -rf package.json dist/package.json",
     "prestart": "npm run build",
-    "start": "ts-node .",
+    "start": "node dist/app/bot.js",
     "watch": "tsc-watch --project . --outDir ./dist --onSuccess \"ts-node . --log-level=verbose --log-flag=date\""
   },
   "author": "s1njar.mail@gmail.com",

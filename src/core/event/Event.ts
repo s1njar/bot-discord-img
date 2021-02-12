@@ -14,5 +14,7 @@ export class Event implements IEvent {
     /**
      * Init event.
      */
-    public init(): void {};
+    public init(): void {
+        return;
+    };
 }

@@ -1,43 +1,53 @@
-import fs from "fs";
-import discord from "discord.js";
 import { Event } from "../../core/event/Event";
-import { logger } from "../../../app/helper/logger";
 import { SaveImageService } from "../service/SaveImageService";
 import { Inject } from "typescript-ioc";
+import {DeployImageService} from "../service/DeployImageService";
 
 /**
  * @class ImageEvent
  */
 export class ImageEvent extends Event {
-    /**
-     * @type discord.Client
-     */
-    public client: discord.Client;
-
     @Inject
     private saveImageService: SaveImageService
+
+    @Inject
+    private deployImageService: DeployImageService
 
     /**
      * Init event.
      */
     public init() {
         this.client.on('message', message => {
-            this.fetchImages(message)
+            this.message = message;
+
+            this.fetchImages().then(null);
+            this.deployImages().then(null);
         })
     }
 
     /**
      * Fetch images.
      *
-     * @param message
      * @private
      */
-    private async fetchImages(message: discord.Message) {
-        if (!message.attachments.size) {
-            logger.info("Message does not contain any images.")
+    private async fetchImages() {
+        if (!this.containsImage() || this.fromThisBot()) {
             return;
         }
 
-        this.saveImageService.execute(message);
+        this.saveImageService.execute(this.message).then(null);
+    }
+
+    /**
+     * Deploy Images.
+     *
+     * @private
+     */
+    private async deployImages() {
+        if (!this.containsContent('bb deploy') || !this.containsRole('Admin')) {
+            return;
+        }
+
+        await this.deployImageService.execute(this.message);
     }
 }

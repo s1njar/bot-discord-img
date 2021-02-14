@@ -47,8 +47,8 @@ export class SaveImageService {
             });
 
         await fs.promises.writeFile(`${dirPath}/${fileName}`, buffer)
-            .then(value => {
-                logger.info('Successfully downloaded image.')
+            .then(() => {
+                logger.info('Successfully downloaded image from discord.')
             })
             .catch(reason => {
                 logger.error(reason.message)
@@ -62,11 +62,10 @@ export class SaveImageService {
      */
     private async getDirPath(): Promise<string> {
         const basePath = appConfig.imageBaseDir;
-        const guildPath = this.message.guild.name;
         // @ts-ignore
         const channelPath = this.message.channel.name;
 
-        return `${basePath}/${guildPath}/${channelPath}`;
+        return `${basePath}/${channelPath}`.toLowerCase();
     }
 
     /**
@@ -75,6 +74,6 @@ export class SaveImageService {
      * @private
      */
     private async getFileName(attachment: MessageAttachment): Promise<string> {
-        return `${Date.now().toString()}_${attachment.name}`;
+        return `${Date.now().toString()}_${attachment.name}`.toLowerCase();
     }
 }

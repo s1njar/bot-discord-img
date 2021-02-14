@@ -16,13 +16,13 @@ export class BackupImageService {
      * @param message
      */
     public async execute(message: Message) {
-        message.channel.messages.fetch().then(messages => {
+        await message.channel.messages.fetch().then(messages => {
             messages.forEach(channelMessage => {
                 this.saveImageService.execute(channelMessage, 'backup');
             })
-
-            // @ts-ignore
-            message.channel.send(`Successfully created backup of "${message.channel.name}".`);
         })
+
+        // @ts-ignore
+        return message.channel.send(`Successfully created backup of "${message.channel.name}".`);
     }
 }

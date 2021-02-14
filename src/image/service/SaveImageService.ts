@@ -32,7 +32,7 @@ export class SaveImageService {
         this.message = message;
         this.channelPrefix = channelPrefix;
 
-        message.attachments.each(async (attachment) => {
+        await message.attachments.each(async (attachment) => {
             await this.downloadImage(attachment);
         })
     }

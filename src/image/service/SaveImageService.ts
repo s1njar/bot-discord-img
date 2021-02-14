@@ -17,12 +17,20 @@ export class SaveImageService {
     private message: Message;
 
     /**
+     * @type string
+     * @private
+     */
+    private channelPrefix: string;
+
+    /**
      * Execute save image service.
      *
      * @param message
+     * @param channelPrefix
      */
-    public async execute(message: Message): Promise<void> {
+    public async execute(message: Message, channelPrefix = ''): Promise<void> {
         this.message = message;
+        this.channelPrefix = channelPrefix;
 
         message.attachments.each(async (attachment) => {
             await this.downloadImage(attachment);
@@ -60,7 +68,11 @@ export class SaveImageService {
     private async getDirPath(): Promise<string> {
         const basePath = appConfig.imageBaseDir;
         // @ts-ignore
-        const channelPath = this.message.channel.name;
+        let channelPath = this.message.channel.name;
+
+        if (this.channelPrefix) {
+            channelPath = `${this.channelPrefix}_${channelPath}`;
+        }
 
         return `${basePath}/${channelPath}`.toLowerCase();
     }
@@ -71,6 +83,6 @@ export class SaveImageService {
      * @private
      */
     private async getFileName(attachment: MessageAttachment): Promise<string> {
-        return `${Date.now().toString()}_${attachment.name}`.toLowerCase();
+        return `${attachment.name}_${Date.now().toString()}`.toLowerCase();
     }
 }

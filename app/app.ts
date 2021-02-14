@@ -52,7 +52,7 @@ export default class App {
      */
     public listen() {
         this.client.login(appConfig.botToken)
-            .then(value => {
+            .then(() => {
                 this.client.on('ready', () => {
                     logger.info(`Logged in as ${this.client.user.tag}!`);
                 });

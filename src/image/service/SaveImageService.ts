@@ -47,9 +47,6 @@ export class SaveImageService {
             });
 
         await fs.promises.writeFile(`${dirPath}/${fileName}`, buffer)
-            .then(() => {
-                logger.info('Successfully downloaded image from discord.')
-            })
             .catch(reason => {
                 logger.error(reason.message)
             })

@@ -42,7 +42,6 @@ export class DeployImageService {
 
                 let attachment;
                 files.forEach(file => {
-                    logger.info(file);
                     attachment = new MessageAttachment(`${path}/${file}`);
 
                     this.message.channel.send(attachment);

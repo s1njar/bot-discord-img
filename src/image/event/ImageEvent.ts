@@ -2,6 +2,7 @@ import { Event } from "../../core/event/Event";
 import { SaveImageService } from "../service/SaveImageService";
 import { Inject } from "typescript-ioc";
 import {DeployImageService} from "../service/DeployImageService";
+import {ListImageChannelsService} from "../service/ListImageChannelsService";
 
 /**
  * @class ImageEvent
@@ -13,6 +14,9 @@ export class ImageEvent extends Event {
     @Inject
     private deployImageService: DeployImageService
 
+    @Inject
+    private listImageChannelsService: ListImageChannelsService
+
     /**
      * Init event.
      */
@@ -22,6 +26,7 @@ export class ImageEvent extends Event {
 
             this.fetchImages().then(null);
             this.deployImages().then(null);
+            this.listImageChannels().then(null);
         })
     }
 
@@ -49,5 +54,18 @@ export class ImageEvent extends Event {
         }
 
         await this.deployImageService.execute(this.message);
+    }
+
+    /**
+     * List image channels.
+     *
+     * @private
+     */
+    private async listImageChannels() {
+        if (!this.containsContent('bb list') || !this.containsRole('Admin')) {
+            return;
+        }
+
+        await this.listImageChannelsService.execute(this.message);
     }
 }

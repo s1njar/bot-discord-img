@@ -26,9 +26,9 @@ export class BackupImageService {
         });
 
         new Promise((resolve, reject) => {
-            messages.forEach((channelMessage, index) => {
-                setTimeout(() => {
-                    this.saveImageService.execute(channelMessage, 'backup');
+            messages.forEach(async (channelMessage, index) => {
+                await setTimeout(async () => {
+                    await this.saveImageService.execute(channelMessage, 'backup');
                     if (index === messages.length -1) resolve();
                 },index * 100);
             });

@@ -25,11 +25,16 @@ export class BackupImageService {
             pinnedOnly: false,
         });
 
-        messages.forEach(channelMessage => {
-            this.saveImageService.execute(channelMessage, 'backup');
-        })
-
-        // @ts-ignore
-        return message.channel.send(`Successfully created backup of "${message.channel.name}".`);
+        new Promise((resolve, reject) => {
+            messages.forEach((channelMessage, index) => {
+                setTimeout(() => {
+                    this.saveImageService.execute(channelMessage, 'backup');
+                    if (index === messages.length -1) resolve();
+                },index * 100);
+            });
+        }).then(() => {
+            // @ts-ignore
+            return message.channel.send(`Successfully created backup of "${message.channel.name}".`);
+        });
     }
 }

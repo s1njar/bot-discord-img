@@ -49,11 +49,13 @@ export class ImageEvent extends Event {
      * @private
      */
     private async deployImages() {
-        if (!this.containsContent('bb deploy') || !this.containsRole('Admin')) {
+        if (!this.containsContentStart('bb deploy') || !this.containsRole('Admin')) {
             return;
         }
 
-        await this.deployImageService.execute(this.message);
+        const channelName = this.getArguments()[2] ? this.getArguments()[2] : '';
+
+        await this.deployImageService.execute(this.message, channelName);
     }
 
     /**

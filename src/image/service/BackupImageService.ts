@@ -17,8 +17,8 @@ export class BackupImageService {
      */
     public async execute(message: Message) {
         message.channel.messages.fetch().then(messages => {
-            messages.forEach(message => {
-                this.saveImageService.execute(message, 'backup');
+            messages.forEach(channelMessage => {
+                this.saveImageService.execute(channelMessage, 'backup');
             })
 
             // @ts-ignore

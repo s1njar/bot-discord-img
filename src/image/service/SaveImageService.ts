@@ -28,7 +28,7 @@ export class SaveImageService {
      * @param message
      * @param channelPrefix
      */
-    public async execute(message: Message, channelPrefix = ''): Promise<void> {
+    public async execute(message: Message, channelPrefix: string = ''): Promise<void> {
         this.message = message;
         this.channelPrefix = channelPrefix;
 
@@ -83,6 +83,6 @@ export class SaveImageService {
      * @private
      */
     private async getFileName(attachment: MessageAttachment): Promise<string> {
-        return `${attachment.name}_${Date.now().toString()}`.toLowerCase();
+        return `${Date.now().toString()}_${attachment.name}`.toLowerCase();
     }
 }

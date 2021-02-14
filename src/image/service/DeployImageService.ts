@@ -15,12 +15,20 @@ export class DeployImageService {
     private message: Message;
 
     /**
+     * @type string
+     * @private
+     */
+    private channelName: string;
+
+    /**
      * Execute deploy image service.
      *
      * @param message
+     * @param channelName
      */
-    public async execute(message: Message): Promise<void> {
+    public async execute(message: Message, channelName: string = ''): Promise<void> {
         this.message = message;
+        this.channelName = channelName;
 
         await this.deployImages();
     }
@@ -59,8 +67,9 @@ export class DeployImageService {
      */
     private async getDirPath(): Promise<string> {
         const basePath = appConfig.imageBaseDir;
+
         // @ts-ignore
-        const channelPath = this.message.channel.name;
+        const channelPath = this.channelName ? this.channelName : this.message.channel.name;
 
         return `${basePath}/${channelPath}`.toLowerCase();
     }

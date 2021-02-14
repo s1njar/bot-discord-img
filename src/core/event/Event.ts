@@ -1,5 +1,6 @@
 import {IEvent} from "./IEvent";
 import {Client, Message} from "discord.js";
+import stringArgv from 'string-argv';
 
 /**
  * @class Event
@@ -31,6 +32,25 @@ export class Event implements IEvent {
      */
     protected containsContent(content: string): boolean {
         return this.message.content === content;
+    }
+
+    /**
+     * Checks if message matches given content.
+     *
+     * @param content
+     * @protected
+     */
+    protected containsContentStart(content: string): boolean {
+        return this.message.content.startsWith(content);
+    }
+
+    /**
+     * Returns arguments as list.
+     *
+     * @protected
+     */
+    protected getArguments(): string[] {
+        return stringArgv(this.message.content);
     }
 
     /**

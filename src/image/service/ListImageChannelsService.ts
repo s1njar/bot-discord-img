@@ -19,7 +19,7 @@ export class ListImageChannelsService {
         fs.promises.readdir(path)
             .then((dirs) => {
                 if (!dirs.length) {
-                    logger.error('No channels available.')
+                    message.channel.send('There are no channels available.');
                 }
 
                 dirs.forEach(dir => {

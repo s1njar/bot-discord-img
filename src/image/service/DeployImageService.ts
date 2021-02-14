@@ -36,7 +36,6 @@ export class DeployImageService {
         fs.promises.readdir(path)
             .then((files) => {
                 if (!files.length) {
-                    logger.error('No images available.')
                     this.message.channel.send('There are no images available for this channel.')
                 }
 

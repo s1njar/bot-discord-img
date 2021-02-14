@@ -20,7 +20,7 @@ export class BackupImageService {
             messages.forEach(async (channelMessage) => {
                 await this.saveImageService.execute(channelMessage, 'backup');
             })
-        }).then(() => {
+
             // @ts-ignore
             return message.channel.send(`Successfully created backup of "${message.channel.name}".`);
         })

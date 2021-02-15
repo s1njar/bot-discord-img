@@ -51,7 +51,9 @@ export class DeployImageService {
                 files.forEach(file => {
                     attachment = new MessageAttachment(`${path}/${file}`);
 
-                    this.message.channel.send(attachment);
+                    this.message.channel.send(attachment).catch(reason => {
+                        logger.error(reason.message);
+                    });
                 })
             })
             .catch(reason => {

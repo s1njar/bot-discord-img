@@ -1,12 +1,12 @@
-import {Message} from "discord.js";
-import {SaveImageService} from "./SaveImageService";
+import {Channel, Message} from "discord.js";
+import {SaveImageService} from "../SaveImageService";
 import {Inject} from "typescript-ioc";
 import * as fetchMessages from "discord-fetch-all";
 
 /**
- * @class BackupImageService
+ * @class BackupChannelService
  */
-export class BackupImageService {
+export class BackupChannelService {
 
     @Inject
     private saveImageService: SaveImageService
@@ -14,27 +14,28 @@ export class BackupImageService {
     /**
      * Executes backup of images.
      *
+     * @param channel
      * @param message
      */
-    public async execute(message: Message) {
+    public async execute(channel: Channel, message: Message) {
         // @ts-ignore
-        const messages = await fetchMessages.messages(message.channel, {
+        const messages = await fetchMessages.messages(channel, {
             reverseArray: true,
             userOnly: true,
             botOnly: false,
             pinnedOnly: false,
         });
 
-        new Promise((resolve, reject) => {
+        new Promise((resolve) => {
             messages.forEach(async (channelMessage, index) => {
                 await setTimeout(async () => {
-                    await this.saveImageService.execute(channelMessage, 'backup');
+                    await this.saveImageService.execute(channelMessage, true);
                     if (index === messages.length -1) resolve();
                 },index * 100);
             });
         }).then(() => {
             // @ts-ignore
-            return message.channel.send(`Successfully created backup of "${message.channel.name}".`);
+            return message.channel.send(`Successfully created backup of "${channel.name}".`);
         });
     }
 }

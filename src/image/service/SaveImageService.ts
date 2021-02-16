@@ -17,20 +17,20 @@ export class SaveImageService {
     private message: Message;
 
     /**
-     * @type string
+     * @type boolean
      * @private
      */
-    private channelPrefix: string;
+    private isBackup: boolean;
 
     /**
      * Execute save image service.
      *
      * @param message
-     * @param channelPrefix
+     * @param isBackup
      */
-    public async execute(message: Message, channelPrefix: string = ''): Promise<void> {
+    public async execute(message: Message, isBackup: boolean = false): Promise<void> {
         this.message = message;
-        this.channelPrefix = channelPrefix;
+        this.isBackup = isBackup;
 
         await message.attachments.each(async (attachment) => {
             await this.downloadImage(attachment);
@@ -69,12 +69,13 @@ export class SaveImageService {
         const basePath = appConfig.imageBaseDir;
         // @ts-ignore
         let channelPath = this.message.channel.name;
+        let channelDir = '';
 
-        if (this.channelPrefix) {
-            channelPath = `${this.channelPrefix}_${channelPath}`;
+        if (this.isBackup) {
+            channelDir = `backup/${this.message.guild.name}/`;
         }
 
-        return `${basePath}/${channelPath}`.toLowerCase();
+        return `${basePath}/${channelDir}${channelPath}`.toLowerCase();
     }
 
     /**
@@ -83,6 +84,6 @@ export class SaveImageService {
      * @private
      */
     private async getFileName(attachment: MessageAttachment): Promise<string> {
-        return `${Date.now().toString()}_${attachment.name}`.toLowerCase();
+        return `${attachment.id}_${attachment.name}`.toLowerCase();
     }
 }

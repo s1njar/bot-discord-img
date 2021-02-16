@@ -54,6 +54,15 @@ export class Event implements IEvent {
     }
 
     /**
+     * Returns first argument.
+     *
+     * @protected
+     */
+    protected getFirstArgument(): string {
+        return this.getArguments()[2] ? this.getArguments()[2] : '';
+    }
+
+    /**
      * Checks if message contains image.
      *
      * @protected
@@ -69,7 +78,13 @@ export class Event implements IEvent {
      * @protected
      */
     protected containsRole(roleName: string): boolean {
-        return !!this.message.member.roles.cache.find(role => role.name === roleName);
+        const isAllowed = !!this.message.member.roles.cache.find(role => role.name === roleName);
+
+        if (!isAllowed) {
+            this.message.channel.send(`You need "${roleName}" role to run this command`).then(null)
+        }
+
+        return isAllowed;
     }
 
     /**

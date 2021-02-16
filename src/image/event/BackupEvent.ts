@@ -1,8 +1,7 @@
 import {Event} from "../../core/event/Event";
 import {BackupChannelService} from "../service/backup/BackupChannelService";
 import {Inject} from "typescript-ioc";
-import BackupServerService from "../service/backup/BackupServerService";
-
+import {BackupServerService} from "../service/backup/BackupServerService";
 
 /**
  * @class BackupEvent
@@ -52,7 +51,7 @@ export class BackupEvent extends Event {
         const commandArgs = this.getArguments();
         let categories = commandArgs.slice(2, commandArgs.length);
 
-        if (!categories) {
+        if (!categories.length) {
             return this.message.channel.send('Please provide at least one server category name.');
         }
 

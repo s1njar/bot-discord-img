@@ -1,5 +1,5 @@
 import {Channel, Message} from "discord.js";
-import {SaveImageService} from "../SaveImageService";
+import {SaveImageService} from "../image/SaveImageService";
 import {Inject} from "typescript-ioc";
 import * as fetchMessages from "discord-fetch-all";
 
@@ -17,7 +17,7 @@ export class BackupChannelService {
      * @param channel
      * @param message
      */
-    public async execute(channel: Channel, message: Message) {
+    public async execute(channel: Channel, message: Message): Promise<void> {
         // @ts-ignore
         const messages = await fetchMessages.messages(channel, {
             reverseArray: true,

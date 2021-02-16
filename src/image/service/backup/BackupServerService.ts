@@ -5,7 +5,7 @@ import {BackupChannelService} from "./BackupChannelService";
 /**
  * @class BackupServerService
  */
-export default class BackupServerService {
+export class BackupServerService {
     @Inject
     private backupChannelService: BackupChannelService
 
@@ -17,6 +17,7 @@ export default class BackupServerService {
      */
     public async execute(message: Message, categories: string[]) {
         const channels = message.guild.channels;
+        message.channel.send('Started server backup.').then()
 
         channels.cache.forEach(channel => {
             if (channel.parent && categories.includes(channel.parent.name.toLowerCase())) {

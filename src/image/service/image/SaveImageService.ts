@@ -1,7 +1,7 @@
 import { MessageAttachment } from "discord.js";
-import { logger } from "../../../app/helper/logger";
+import { logger } from "../../../../app/helper/logger";
 import { Message } from "discord.js";
-import appConfig from "../../../app/config/application";
+import appConfig from "../../../../app/config/application";
 import fetch from "node-fetch";
 import * as fs from "fs";
 

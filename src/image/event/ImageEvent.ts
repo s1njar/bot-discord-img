@@ -1,8 +1,9 @@
 import { Event } from "../../core/event/Event";
-import { SaveImageService } from "../service/SaveImageService";
+import { SaveImageService } from "../service/image/SaveImageService";
 import { Inject } from "typescript-ioc";
-import {DeployImageService} from "../service/DeployImageService";
+import {DeployChannelImagesService} from "../service/image/DeployChannelImagesService";
 import {ListImageChannelsService} from "../service/ListImageChannelsService";
+import {DeployServerImagesService} from "../service/image/DeployServerImagesService";
 
 /**
  * @class ImageEvent
@@ -12,7 +13,10 @@ export class ImageEvent extends Event {
     private saveImageService: SaveImageService
 
     @Inject
-    private deployImageService: DeployImageService
+    private deployChannelImagesService: DeployChannelImagesService
+
+    @Inject
+    private deployServerImagesService: DeployServerImagesService
 
     @Inject
     private listImageChannelsService: ListImageChannelsService
@@ -25,7 +29,8 @@ export class ImageEvent extends Event {
             this.message = message;
 
             this.fetchImages().then(null);
-            this.deployImages().then(null);
+            this.deployChannelImages().then(null);
+            this.deployServerImages().then(null);
             this.listImageChannels().then(null);
         })
     }
@@ -40,7 +45,7 @@ export class ImageEvent extends Event {
             return;
         }
 
-        this.saveImageService.execute(this.message).then(null);
+        this.saveImageService.execute(this.message, true).then(null);
     }
 
     /**
@@ -48,14 +53,31 @@ export class ImageEvent extends Event {
      *
      * @private
      */
-    private async deployImages() {
-        if (!this.containsContentStart('bb deploy') || !this.containsRole('Admin')) {
+    private async deployChannelImages() {
+        if (!this.containsContentStart('bb deploy-channel') || !this.containsRole('Admin')) {
             return;
         }
 
-        const channelName = this.getArguments()[2] ? this.getArguments()[2] : '';
+        const channelName = this.getFirstArgument();
+        const serverName = this.getArguments()[3] ?? this.message.guild.name;
 
-        await this.deployImageService.execute(this.message, channelName);
+        // @ts-ignore
+        return this.deployChannelImagesService.execute(this.message, this.message.channel, channelName, serverName);
+    }
+
+    /**
+     * Deploy Images.
+     *
+     * @private
+     */
+    private async deployServerImages() {
+        if (!this.containsContentStart('bb deploy-server') || !this.containsRole('Admin')) {
+            return;
+        }
+
+        const serverName = this.getFirstArgument() !== '' ? this.getFirstArgument() : this.message.guild.name;
+
+        this.deployServerImagesService.execute(this.message, serverName);
     }
 
     /**
@@ -68,6 +90,6 @@ export class ImageEvent extends Event {
             return;
         }
 
-        await this.listImageChannelsService.execute(this.message);
+        return this.listImageChannelsService.execute(this.message);
     }
 }

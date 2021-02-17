@@ -77,7 +77,7 @@ export class ImageEvent extends Event {
 
         const serverName = this.getFirstArgument() !== '' ? this.getFirstArgument() : this.message.guild.name;
 
-        this.deployServerImagesService.execute(this.message, serverName);
+        return this.deployServerImagesService.execute(this.message, serverName);
     }
 
     /**

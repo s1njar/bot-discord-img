@@ -40,13 +40,13 @@ export class DeployChannelImagesService {
      * @param channelName
      * @param serverName
      */
-    public execute(message: Message, channel: TextChannel, channelName: string = '', serverName: string = ''): void {
+    public async execute(message: Message, channel: TextChannel, channelName: string = '', serverName: string = ''): Promise<void> {
         this.message = message;
         this.channel = channel;
         this.channelName = channelName;
         this.serverName = serverName;
 
-        this.deployImages();
+        return this.deployImages();
     }
 
     /**
@@ -54,7 +54,7 @@ export class DeployChannelImagesService {
      *
      * @private
      */
-    private deployImages() {
+    private async deployImages() {
         const path = this.getDirPath();
 
         try {
@@ -62,23 +62,26 @@ export class DeployChannelImagesService {
 
             if (!files.length) {
                 this.message.channel.send(
-                    `No images available for the channel ${this.channelName}.`
+                    `🔴 No images available for the channel "${this.channelName}".`
                 ).then();
+                return;
             }
 
-            this.message.channel.send(`Started deployment for the channel ${this.channelName}.`).then();
+            this.message.channel.send(`🎌 Started deployment for the channel "${this.channelName}".`).then();
 
             let attachment;
-            files.forEach(file => {
+            for (const file of files) {
                 attachment = new MessageAttachment(`${path}/${file}`);
-                this.channel.send(attachment).catch(reason => {
+                await this.channel.send(attachment).catch(reason => {
                     logger.error(reason.message);
                 });
-            })
+            }
+
+            this.message.channel.send(`✅ Finished deployment for the channel "${this.channelName}".`).then();
         } catch (err) {
             logger.error(err.message)
             this.message.channel.send(
-                `No images available for the channel ${this.channelName}.`
+                `🔴 No images available for the channel "${this.channelName}".`
             ).then()
         }
     }

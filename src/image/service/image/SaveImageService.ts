@@ -24,9 +24,9 @@ export class SaveImageService {
     public async execute(message: Message): Promise<void> {
         this.message = message;
 
-        await message.attachments.each(async (attachment) => {
+        for (const attachment of message.attachments.array()) {
             await this.downloadImage(attachment);
-        })
+        }
     }
 
     /**

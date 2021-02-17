@@ -1,6 +1,6 @@
 import {Inject} from "typescript-ioc";
 import {DeployChannelImagesService} from "./DeployChannelImagesService";
-import {Message, TextChannel} from "discord.js";
+import {Message} from "discord.js";
 
 /**
  * @class DeployServerImagesService
@@ -16,13 +16,18 @@ export class DeployServerImagesService {
      * @param message
      * @param serverName
      */
-    public execute (message: Message, serverName: string) {
+    public async execute (message: Message, serverName: string) {
         const channels = message.guild.channels;
 
-        channels.cache.forEach((channel: TextChannel) => {
+        message.channel.send('🎌 Started server deployment.').then();
+
+        for (const channel of channels.cache.array()) {
             if (channel.parent && channel.type === 'text') {
-                this.deployChannelImagesService.execute(message, channel, '', serverName);
+                // @ts-ignore
+                await this.deployChannelImagesService.execute(message, channel, '', serverName);
             }
-        })
+        }
+
+        message.channel.send('✅ Finished server deployment.').then();
     }
 }

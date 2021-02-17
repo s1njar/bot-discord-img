@@ -1,4 +1,4 @@
-import {Message} from "discord.js";
+import {GuildChannel, Message} from "discord.js";
 import {Inject} from "typescript-ioc";
 import {BackupChannelService} from "./BackupChannelService";
 
@@ -17,12 +17,15 @@ export class BackupServerService {
      */
     public async execute(message: Message, categories: string[]) {
         const channels = message.guild.channels;
-        message.channel.send('Started server backup.').then();
+        let channel: GuildChannel;
+        message.channel.send('🎌 Started server backup.').then();
 
-        channels.cache.forEach(channel => {
+        for (channel of channels.cache.array()) {
             if (channel.parent && categories.includes(channel.parent.name)) {
-                this.backupChannelService.execute(channel, message);
+                await this.backupChannelService.execute(channel, message);
             }
-        })
+        }
+
+        message.channel.send('✅ Finished server backup.').then();
     }
 }

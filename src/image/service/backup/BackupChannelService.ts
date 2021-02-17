@@ -20,25 +20,28 @@ export class BackupChannelService {
      */
     public async execute(channel: Channel, message: Message): Promise<void> {
         // @ts-ignore
-        message.channel.send(`Started backup of channel ${channel.name} .`).then()
-        // @ts-ignore
-        const messages = await fetchMessages.messages(channel, {
-            reverseArray: true,
-            userOnly: true,
-            botOnly: false,
-            pinnedOnly: false,
-        });
+        message.channel.send(`🎌 Started backup of channel ${channel.name} .`).then()
 
-        new Promise((resolve) => {
-            messages.forEach(async (channelMessage, index) => {
+        try {
+            // @ts-ignore
+            const messages = await fetchMessages.messages(channel, {
+                reverseArray: true,
+                userOnly: true,
+                botOnly: false,
+                pinnedOnly: false,
+            });
+
+            for (const channelMessage of messages) {
                 await setTimeout(async () => {
                     await this.saveImageService.execute(channelMessage);
-                    if (index === messages.length -1) resolve();
-                },index * 50);
-            });
-        }).then(() => {
+                },100);
+            }
+
             // @ts-ignore
-            return message.channel.send(`Successfully created backup of "${channel.name}".`);
-        });
+            await message.channel.send(`✅ Successfully created backup of "${channel.name}".`);
+            return;
+        } catch (err) {
+            logger.error(err.message);
+        }
     }
 }

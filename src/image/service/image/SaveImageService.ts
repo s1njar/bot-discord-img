@@ -36,20 +36,24 @@ export class SaveImageService {
      * @private
      */
     private async downloadImage (attachment: MessageAttachment): Promise<void> {
-        const response = await fetch(attachment.url);
-        const buffer = await response.buffer();
-        const dirPath = await this.getDirPath();
-        const fileName = await this.getFileName(attachment);
+        try {
+            const response = await fetch(attachment.url);
+            const buffer = await response.buffer();
+            const dirPath = await this.getDirPath();
+            const fileName = await this.getFileName(attachment);
 
-        await fs.promises.mkdir(dirPath, { recursive: true })
-            .catch(reason => {
-                logger.error(reason.message);
-            });
+            await fs.promises.mkdir(dirPath, { recursive: true })
+                .catch(reason => {
+                    logger.error(reason.message);
+                });
 
-        await fs.promises.writeFile(`${dirPath}/${fileName}`, buffer)
-            .catch(reason => {
-                logger.error(reason.message)
-            })
+            await fs.promises.writeFile(`${dirPath}/${fileName}`, buffer)
+                .catch(reason => {
+                    logger.error(reason.message)
+                })
+        } catch (err) {
+            logger.error(err.message)
+        }
     }
 
     /**

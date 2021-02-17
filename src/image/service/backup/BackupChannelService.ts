@@ -32,9 +32,7 @@ export class BackupChannelService {
             });
 
             for (const channelMessage of messages) {
-                await setTimeout(async () => {
-                    await this.saveImageService.execute(channelMessage);
-                },100);
+                await this.saveImageService.execute(channelMessage);
             }
 
             // @ts-ignore

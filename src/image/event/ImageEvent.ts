@@ -86,10 +86,12 @@ export class ImageEvent extends Event {
      * @private
      */
     private async listImageChannels() {
-        if (!this.containsContent('bb list') || !this.containsRole('Admin')) {
+        if (!this.containsContentStart('bb list') || !this.containsRole('Admin')) {
             return;
         }
 
-        return this.listImageChannelsService.execute(this.message);
+        const serverName = this.getFirstArgument() !== '' ? this.getFirstArgument() : this.message.guild.name;
+
+        return this.listImageChannelsService.execute(this.message, serverName);
     }
 }

@@ -12,9 +12,10 @@ export class ListImageChannelsService {
      * Lists image channels.
      *
      * @param message
+     * @param serverName
      */
-    public async execute(message: Message) {
-        const path = await this.getDirPath();
+    public async execute(message: Message, serverName: string) {
+        const path = await this.getDirPath(serverName);
 
         fs.promises.readdir(path)
             .then((dirs) => {
@@ -40,7 +41,7 @@ export class ListImageChannelsService {
      *
      * @private
      */
-    private async getDirPath(): Promise<string> {
-        return appConfig.imageBaseDir.toLowerCase();
+    private async getDirPath(serverName: string): Promise<string> {
+        return `${appConfig.imageBaseDir}/backup/${serverName}`.toLowerCase();
     }
 }

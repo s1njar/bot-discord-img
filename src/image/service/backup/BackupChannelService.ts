@@ -28,7 +28,6 @@ export class BackupChannelService {
             botOnly: false,
             pinnedOnly: false,
         });
-        logger.info("Got messages.")
 
         new Promise((resolve) => {
             messages.forEach(async (channelMessage, index) => {

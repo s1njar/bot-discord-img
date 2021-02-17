@@ -17,20 +17,12 @@ export class SaveImageService {
     private message: Message;
 
     /**
-     * @type boolean
-     * @private
-     */
-    private isBackup: boolean;
-
-    /**
      * Execute save image service.
      *
      * @param message
-     * @param isBackup
      */
-    public async execute(message: Message, isBackup: boolean = false): Promise<void> {
+    public async execute(message: Message): Promise<void> {
         this.message = message;
-        this.isBackup = isBackup;
 
         await message.attachments.each(async (attachment) => {
             await this.downloadImage(attachment);
@@ -69,13 +61,9 @@ export class SaveImageService {
         const basePath = appConfig.imageBaseDir;
         // @ts-ignore
         let channelPath = this.message.channel.name;
-        let channelDir = '';
+        let serverPath = this.message.guild.name;
 
-        if (this.isBackup) {
-            channelDir = `backup/${this.message.guild.name}/`;
-        }
-
-        return `${basePath}/${channelDir}${channelPath}`.toLowerCase();
+        return `${basePath}/${serverPath}/${channelPath}`.toLowerCase();
     }
 
     /**

@@ -42,6 +42,6 @@ export class ListImageChannelsService {
      * @private
      */
     private async getDirPath(serverName: string): Promise<string> {
-        return `${appConfig.imageBaseDir}/backup/${serverName}`.toLowerCase();
+        return `${appConfig.imageBaseDir}/${serverName}`.toLowerCase();
     }
 }

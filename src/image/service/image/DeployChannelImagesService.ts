@@ -92,12 +92,7 @@ export class DeployChannelImagesService {
         const basePath = appConfig.imageBaseDir;
         // @ts-ignore
         this.channelName = this.channelName ? this.channelName : this.channel.name;
-        let channelDir = '';
 
-        if (this.serverName) {
-            channelDir = `backup/${this.serverName}/`;
-        }
-
-        return `${basePath}/${channelDir}${this.channelName}`.toLowerCase();
+        return `${basePath}/${this.serverName}/${this.channelName}`.toLowerCase();
     }
 }

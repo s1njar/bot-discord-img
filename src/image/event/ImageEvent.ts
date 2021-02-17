@@ -45,7 +45,7 @@ export class ImageEvent extends Event {
             return;
         }
 
-        this.saveImageService.execute(this.message, true).then(null);
+        this.saveImageService.execute(this.message).then(null);
     }
 
     /**

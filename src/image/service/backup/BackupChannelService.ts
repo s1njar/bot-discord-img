@@ -3,6 +3,7 @@ import {SaveImageService} from "../image/SaveImageService";
 import {Inject} from "typescript-ioc";
 import * as fetchMessages from "discord-fetch-all";
 import {logger} from "../../../../app/helper/logger";
+import appConfig from "../../../../app/config/application";
 
 /**
  * @class BackupChannelService
@@ -20,23 +21,31 @@ export class BackupChannelService {
      */
     public async execute(channel: Channel, message: Message): Promise<void> {
         // @ts-ignore
-        message.channel.send(`🎌 Started backup of channel ${channel.name} .`).then()
+        const downloadMessage = await message.channel.send(`☸️ Creating backup of channel "${channel.name}".`);
 
         try {
             // @ts-ignore
             const messages = await fetchMessages.messages(channel, {
                 reverseArray: true,
-                userOnly: true,
+                userOnly: false,
                 botOnly: false,
                 pinnedOnly: false,
             });
 
+            // @ts-ignore
+            logger.info(`FINISHED => Messages DOWNLOAD of "${channel.name}"`)
+
             for (const channelMessage of messages) {
-                await this.saveImageService.execute(channelMessage);
+                if (channelMessage.attachments.size > 0) {
+                    await new Promise(r => setTimeout(r, appConfig.imageTimeoutSleepMs));
+
+                    await this.saveImageService.execute(channelMessage);
+                    // @ts-ignore
+                    logger.info(`FINISHED => IMAGE DOWNLOAD of "${channel.name}"`)
+                }
             }
 
-            // @ts-ignore
-            await message.channel.send(`✅ Successfully created backup of "${channel.name}".`);
+            await downloadMessage.delete()
             return;
         } catch (err) {
             logger.error(err.message);

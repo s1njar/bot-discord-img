@@ -32,16 +32,11 @@ export class BackupChannelService {
                 pinnedOnly: false,
             });
 
-            // @ts-ignore
-            logger.info(`FINISHED => Messages DOWNLOAD of "${channel.name}"`)
-
             for (const channelMessage of messages) {
                 if (channelMessage.attachments.size > 0) {
                     await new Promise(r => setTimeout(r, appConfig.imageTimeoutSleepMs));
 
                     await this.saveImageService.execute(channelMessage);
-                    // @ts-ignore
-                    logger.info(`FINISHED => IMAGE DOWNLOAD of "${channel.name}"`)
                 }
             }
 

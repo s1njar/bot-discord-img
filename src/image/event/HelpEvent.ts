@@ -32,7 +32,7 @@ export class HelpEvent extends Event {
             .setDescription(`How may I assist you ?`)
             .setThumbnail('https://cdn.discordapp.com/app-icons/809208791316824095/ad2828122805b48d24c40fa2c0d3da4a.png?size=256')
             .setImage('https://i.kym-cdn.com/photos/images/original/000/862/409/1f1.jpg')
-            .setFooter('© 2021 s1njar#0066')
+            .setFooter('2021 UndefinedUserEntityException#6479')
             .addFields(
                 {
                     name: 'bb list | bb list <server_name>',

@@ -14,7 +14,7 @@ module.exports = {
   deploy: {
     production: {
       user : 'root',
-      host : '51.38.213.135',
+      host : '159.69.28.12',
       ref  : 'origin/master',
       repo : 'git@gitlab.com:ares-only/back-boner-bot.git',
       path : '/var/app/ares-back-boner',

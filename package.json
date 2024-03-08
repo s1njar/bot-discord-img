@@ -1,7 +1,7 @@
 {
-  "name": "back-boner-bot",
+  "name": "discord-img-bot",
   "version": "1.0.0",
-  "description": "Bot for creating images.",
+  "description": "A Discord bot for creating image backups",
   "main": "dist/app/bot.js",
   "scripts": {
     "start": "ts-node . --log-level=verbose --log-flag=date",

@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'ares-back-boner',
+      name: 'discord-img-bot',
       script: 'npm',
       args: 'start',
       env: {
@@ -14,10 +14,10 @@ module.exports = {
   deploy: {
     production: {
       user : 'root',
-      host : '80.240.25.1',
+      host : '127.0.0.1',
       ref  : 'origin/master',
-      repo : 'git@gitlab.com:ares-only/back-boner-bot.git',
-      path : '/var/app/ares-back-boner',
+      repo : 'git@gitlab.com:ares-only/discord-img-bot.git',
+      path : '/var/app/discord-img-bot',
       'post-deploy': 'npm install && pm2 reload ecosystem.config.js --env production'
     }
   }

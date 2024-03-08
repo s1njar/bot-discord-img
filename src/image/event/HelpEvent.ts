@@ -1,5 +1,5 @@
 import { Event } from "../../core/event/Event";
-import { MessageEmbed } from "discord.js";
+import { Colors, EmbedBuilder } from "discord.js";
 
 /**
  * @class HelpEvent
@@ -26,9 +26,9 @@ export class HelpEvent extends Event {
       return;
     }
 
-    const helpEmbed = new MessageEmbed()
+    const helpEmbed = new EmbedBuilder()
       .setTitle(`Welcome!`)
-      .setColor("DARK_RED")
+      .setColor(Colors.DarkRed)
       .setDescription(`How may I assist you ?`)
       .setThumbnail(
         "https://cdn.discordapp.com/app-icons/809208791316824095/ad2828122805b48d24c40fa2c0d3da4a.png?size=256"
@@ -36,7 +36,6 @@ export class HelpEvent extends Event {
       .setImage(
         "https://i.kym-cdn.com/photos/images/original/000/862/409/1f1.jpg"
       )
-      .setFooter("2021 UndefinedUserEntityException#6479")
       .addFields(
         {
           name: "bb list | bb list <server_name>",
@@ -60,6 +59,6 @@ export class HelpEvent extends Event {
         }
       );
 
-    this.message.channel.send(helpEmbed).then();
+    this.message.channel.send({ embeds: [helpEmbed] }).then();
   }
 }

@@ -2,8 +2,8 @@
  * @interface IServiceProvider
  */
 export interface IServiceProvider {
-    /**
-     * Register new service.
-     */
-    register(): Promise<void>;
+  /**
+   * Register new service.
+   */
+  register(): Promise<void>;
 }

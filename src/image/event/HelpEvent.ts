@@ -22,7 +22,7 @@ export class HelpEvent extends Event {
    * @private
    */
   private async showHelp() {
-    if (!this.containsContent("bb help") || !this.containsRole("Admin")) {
+    if (!this.containsContent("dib help") || !this.containsRole("Admin")) {
       return;
     }
 
@@ -38,23 +38,23 @@ export class HelpEvent extends Event {
       )
       .addFields(
         {
-          name: "bb list | bb list <server_name>",
+          name: "dib list | dib list <server_name>",
           value: `Lists all channel of specific server.`,
         },
         {
-          name: "bb backup-channel",
+          name: "dib backup-channel",
           value: `Creates backup of current channel.`,
         },
         {
-          name: 'bb backup-server "<category>" "<category>"',
+          name: 'dib backup-server "<category>" "<category>"',
           value: `Creates backup of channel below given category names.`,
         },
         {
-          name: "bb deploy-channel | bb deploy-channel <channel_name> <server_name>",
+          name: "dib deploy-channel | dib deploy-channel <channel_name> <server_name>",
           value: `Uploads images in current channel. Location and name of the uploaded channels can be specified by given parameters.`,
         },
         {
-          name: "bb deploy-server | bb deploy-server <server_name>",
+          name: "dib deploy-server | dib deploy-server <server_name>",
           value: `Go's through all server channel and uploads images in matching channels. Images from other servers can be specified by given parameters.`,
         }
       );

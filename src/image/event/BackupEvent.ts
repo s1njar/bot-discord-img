@@ -32,7 +32,7 @@ export class BackupEvent extends Event {
    */
   private async backupChannel() {
     if (
-      !this.containsContent("bb backup-channel") ||
+      !this.containsContent("dib backup-channel") ||
       !this.containsRole("Admin")
     ) {
       return;
@@ -51,7 +51,7 @@ export class BackupEvent extends Event {
    */
   private async backupServer() {
     if (
-      !this.containsContentStart("bb backup-server") ||
+      !this.containsContentStart("dib backup-server") ||
       !this.containsRole("Admin")
     ) {
       return;

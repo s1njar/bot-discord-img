@@ -56,7 +56,7 @@ export class ImageEvent extends Event {
    */
   private async deployChannelImages() {
     if (
-      !this.containsContentStart("bb deploy-channel") ||
+      !this.containsContentStart("dib deploy-channel") ||
       !this.containsRole("Admin")
     ) {
       return;
@@ -80,7 +80,7 @@ export class ImageEvent extends Event {
    */
   private async deployServerImages() {
     if (
-      !this.containsContentStart("bb deploy-server") ||
+      !this.containsContentStart("dib deploy-server") ||
       !this.containsRole("Admin")
     ) {
       return;
@@ -100,7 +100,7 @@ export class ImageEvent extends Event {
    * @private
    */
   private async listImageChannels() {
-    if (!this.containsContentStart("bb list") || !this.containsRole("Admin")) {
+    if (!this.containsContentStart("dib list") || !this.containsRole("Admin")) {
       return;
     }
 
